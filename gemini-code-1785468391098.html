@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M.A.S.H. Game</title>
+  <style>
+    :root {
+      --primary: #4a6fa5;
+      --secondary: #166088;
+      --background: #f4f7f6;
+      --card-bg: #ffffff;
+      --text: #2b2d42;
+      --success: #2a9d8f;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 950px;
+      width: 100%;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #6c757d;
+      margin-bottom: 25px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .category-card {
+      background: #f8f9fa;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+    }
+
+    .category-card h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: var(--primary);
+      font-size: 1rem;
+      border-bottom: 2px solid #e9ecef;
+      padding-bottom: 6px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .magic-number-section {
+      text-align: center;
+    }
+
+    .magic-number-section label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    .magic-number-section input {
+      width: 80px;
+      text-align: center;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button.secondary-btn {
+      background-color: #6c757d;
+    }
+
+    button.secondary-btn:hover {
+      background-color: #495057;
+    }
+
+    button:hover {
+      background-color: var(--secondary);
+    }
+
+    #results {
+      margin-top: 30px;
+      display: none;
+      border-top: 2px dashed #dee2e6;
+      padding-top: 25px;
+    }
+
+    #results h2 {
+      text-align: center;
+      color: var(--secondary);
+      margin-bottom: 20px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .result-item {
+      font-size: 15px;
+      padding: 12px 15px;
+      background: #f8f9fa;
+      border-left: 4px solid var(--success);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>M.A.S.H.</h1>
+  <p class="subtitle">Fill in your choices or click "Randomize" to auto-fill!</p>
+
+  <form id="mashForm" onsubmit="event.preventDefault(); playMash();">
+    <div class="category-grid">
+
+      <div class="category-card">
+        <h3>🏠 House Type</h3>
+        <div class="input-group">
+          <input type="text" class="house" placeholder="Option 1">
+          <input type="text" class="house" placeholder="Option 2">
+          <input type="text" class="house" placeholder="Option 3">
+          <input type="text" class="house" placeholder="Option 4">
+          <input type="text" class="house" placeholder="Option 5">
+          <input type="text" class="house" placeholder="Option 6">
+        </div>
+      </div>
+
+      <div class="category-card">
+        <h3>💍 Relationship Status</h3>
+        <div class="input-group">
+          <input type="text" class="relationship" placeholder="Option 1">
+          <input type="text" class="relationship" placeholder="Option 2">
+          <input type="text" class="relationship" placeholder="Option 3">
+          <input type="text" class="relationship" placeholder="Option 4">
+          <input type="text" class="relationship" placeholder="Option 5">
+          <input type="text" class="relationship" placeholder="Option 6">
+        </div>
+      </div>
+
+      <div class="category-card">
+        <h3>💼 Job / Career</h3>
+        <div class="input-group">
+          <input type="text" class="job" placeholder="Option 1">
+          <input type="text" class="job" placeholder="Option 2">
+          <input type="text" class="job" placeholder="Option 3">
+          <input type="text" class="job" placeholder="Option 4">
+          <input type="text" class="job" placeholder="Option 5">
+          <input type="text" class="job" placeholder="Option 6">
+        </div>
+      </div>
+
+      <div class="category-card">
+        <h3>🎓 Specific College</h3>
+        <div class="input-group">
+          <input type="text" class="college" placeholder="Option 1">
+          <input type="text" class="college" placeholder="Option 2">
+          <input type="text" class="college" placeholder="Option 3">
+          <input type="text" class="college" placeholder="Option 4">
+          <input type="text" class="college" placeholder="Option 5">
+          <input type="text" class="college" placeholder="Option 6">
+        </div>
+      </div>
+
+      <div class="category-card">
+        <h3>🚗 Specific Vehicle</h3>
+        <div class="input-group">
+          <input type="text" class="transport" placeholder="Option 1">
+          <input type="text" class="transport" placeholder="Option 2">
+          <input type="text" class="transport" placeholder="Option 3">
+          <input type="text" class="transport" placeholder="Option 4">
+          <input type="text" class="transport" placeholder="Option 5">
+          <input type="text" class="transport" placeholder="Option 6">
+        </div>
+      </div>
+
+      <div class="category-card">
+        <h3>🐾 Pet</h3>
+        <div class="input-group">
+          <input type="text" class="pet" placeholder="Option 1">
+          <input type="text" class="pet" placeholder="Option 2">
+          <input type="text" class="pet" placeholder="Option 3">
+          <input type="text" class="pet" placeholder="Option 4">
+          <input type="text" class="pet" placeholder="Option 5">
+          <input type="text" class="pet" placeholder="Option 6">
+        </div>
+      </div>
+
+      <div class="category-card">
+        <h3>📍 Where You'll Live</h3>
+        <div class="input-group">
+          <input type="text" class="location" placeholder="Option 1">
+          <input type="text" class="location" placeholder="Option 2">
+          <input type="text" class="location" placeholder="Option 3">
+          <input type="text" class="location" placeholder="Option 4">
+          <input type="text" class="location" placeholder="Option 5">
+          <input type="text" class="location" placeholder="Option 6">
+        </div>
+      </div>
+
+      <div class="category-card">
+        <h3>💰 Financial Status</h3>
+        <div class="input-group">
+          <input type="text" class="wealth" placeholder="Option 1">
+          <input type="text" class="wealth" placeholder="Option 2">
+          <input type="text" class="wealth" placeholder="Option 3">
+          <input type="text" class="wealth" placeholder="Option 4">
+          <input type="text" class="wealth" placeholder="Option 5">
+          <input type="text" class="wealth" placeholder="Option 6">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="controls">
+      <div class="magic-number-section">
+        <label for="magicNumber">Magic Count Number (optional):</label>
+        <input type="number" id="magicNumber" min="2" max="15" placeholder="e.g. 5">
+      </div>
+      <div class="button-group">
+        <button type="button" class="secondary-btn" onclick="randomizeAllInputs()">🎲 Shuffle Options</button>
+        <button type="submit">Predict My Future!</button>
+      </div>
+    </div>
+  </form>
+
+  <div id="results">
+    <h2>📋 Your Predicted Life Summary</h2>
+    <div id="futureStory" class="result-grid"></div>
+  </div>
+</div>
+
+<script>
+  // Large option pools to pick completely different choices every time!
+  const poolData = {
+    house: [
+      'Suburban Single-Family House', 'Downtown High-Rise Apartment', 'Townhouse with a Yard', 
+      'Rural Farmhouse', 'Cozy Studio Apartment', 'Luxury Coastal Mansion', 'Renovated Brownstone',
+      'Lakeside Cabin', 'Modern Minimalist Loft', 'Historic Craftsman Home', 'Duplex Condo', 'Penthouse Suite'
+    ],
+    relationship: [
+      'Happily Married', 'Single & Thriving', 'Long-term Partnership', 'Engaged to be Married', 
+      'Casually Dating around', 'Married with 2 Kids', 'Happily Single with Friends', 'Newlywed', 
+      'High School Sweethearts Married', 'Living Together Unmarried', 'Dating a Fellow Professional', 'Married with 4 Kids'
+    ],
+    job: [
+      'Software Engineer', 'Registered Nurse', 'High School Teacher', 'Marketing Manager', 
+      'Small Business Owner', 'Graphic Designer', 'Financial Analyst', 'Mechanical Engineer', 
+      'Physical Therapist', 'Data Scientist', 'Architect', 'Electrician', 'Project Manager', 'Accountant'
+    ],
+    college: [
+      'Stanford University', 'University of Michigan', 'UCLA', 'NYU', 'University of Florida', 
+      'Ohio State University', 'UT Austin', 'Penn State', 'Community College of Philadelphia', 
+      'University of Washington', 'Georgia Tech', 'Purdue University', 'Arizona State University', 'UNC Chapel Hill'
+    ],
+    transport: [
+      'Toyota RAV4', 'Tesla Model 3', 'Honda Civic', 'Ford F-150', 'Subaru Outback', 
+      'BMW 3 Series', 'Hyundai Elantra', 'Mazda CX-5', 'Chevrolet Tahoe', 'Jeep Wrangler', 
+      'Kia Telluride', 'Nissan Altima', 'Bicycle & City Transit', 'Audi Q5'
+    ],
+    pet: [
+      'Golden Retriever', 'Tabby Cat', 'No Pets', 'Two Rescue Dogs', 'French Bulldog', 
+      'German Shepherd', 'Siamese Cat', 'Aquarium Fish', 'Rescue Bunny', 'Beagle', 'Australian Shepherd', 'Two Cats'
+    ],
+    location: [
+      'Chicago, IL', 'San Diego, CA', 'Austin, TX', 'Seattle, WA', 'Boston, MA', 
+      'Denver, CO', 'Nashville, TN', 'Atlanta, GA', 'Raleigh, NC', 'Portland, OR', 
+      'London, UK', 'Toronto, Canada', 'Phoenix, AZ', 'Minneapolis, MN'
+    ],
+    wealth: [
+      'Upper Middle Class ($130k/yr)', 'Solid Middle Class ($75k/yr)', 'Comfortable & Debt-Free', 
+      'Entry-Level Salary ($48k/yr)', 'High Earner ($220k/yr)', 'Frugal & Financially Independent', 
+      'Emerging Executive ($180k/yr)', 'Stable Dual-Income household', 'Very Wealthy ($350k+/yr)'
+    ]
+  };
+
+  // Utility to grab N random unique items from an array
+  function getRandomItems(array, count) {
+    let shuffled = [...array].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  }
+
+  // Populates form inputs with fresh random items
+  function randomizeAllInputs() {
+    const categories = ['house', 'relationship', 'job', 'college', 'transport', 'pet', 'location', 'wealth'];
+    categories.forEach(cat => {
+      const inputs = document.querySelectorAll('.' + cat);
+      const randomPicks = getRandomItems(poolData[cat], 6);
+      inputs.forEach((input, index) => {
+        input.value = randomPicks[index];
+      });
+    });
+  }
+
+  // Collect user input or pick random defaults for empty fields
+  function getCategoryValues(selector, catKey) {
+    const inputs = document.querySelectorAll(selector);
+    const userValues = Array.from(inputs).map(i => i.value.trim());
+    
+    // Pick random defaults for empty boxes
+    const randomDefaults = getRandomItems(poolData[catKey], 6);
+    
+    return userValues.map((val, idx) => val !== '' ? val : randomDefaults[idx]);
+  }
+
+  function playMash() {
+    const categories = {
+      'House Type': getCategoryValues('.house', 'house'),
+      'Relationship Status': getCategoryValues('.relationship', 'relationship'),
+      'Job': getCategoryValues('.job', 'job'),
+      'College': getCategoryValues('.college', 'college'),
+      'Vehicle': getCategoryValues('.transport', 'transport'),
+      'Pet': getCategoryValues('.pet', 'pet'),
+      'Location': getCategoryValues('.location', 'location'),
+      'Financial Status': getCategoryValues('.wealth', 'wealth')
+    };
+
+    let magicInput = document.getElementById('magicNumber').value;
+    let magicNumber = magicInput ? parseInt(magicInput) : Math.floor(Math.random() * 6) + 4;
+
+    let pool = [];
+    for (let cat in categories) {
+      categories[cat].forEach(item => {
+        pool.push({ category: cat, name: item, active: true });
+      });
+    }
+
+    let count = 0;
+    let index = 0;
+
+    while (hasUnfinishedCategories(pool)) {
+      if (pool[index].active) {
+        if (getCategoryActiveCount(pool, pool[index].category) > 1) {
+          count++;
+          if (count === magicNumber) {
+            pool[index].active = false;
+            count = 0;
+          }
+        }
+      }
+      index = (index + 1) % pool.length;
+    }
+
+    const winners = {};
+    for (let cat in categories) {
+      const winner = pool.find(i => i.category === cat && i.active);
+      winners[cat] = winner.name;
+    }
+
+    const storyContainer = document.getElementById('futureStory');
+    storyContainer.innerHTML = `
+      <div class="result-item">🏠 <strong>House Type:</strong> ${winners['House Type']}</div>
+      <div class="result-item">💍 <strong>Status:</strong> ${winners['Relationship Status']}</div>
+      <div class="result-item">💼 <strong>Job:</strong> ${winners['Job']}</div>
+      <div class="result-item">🎓 <strong>College:</strong> ${winners['College']}</div>
+      <div class="result-item">🚗 <strong>Vehicle:</strong> ${winners['Vehicle']}</div>
+      <div class="result-item">🐾 <strong>Pet:</strong> ${winners['Pet']}</div>
+      <div class="result-item">📍 <strong>Location:</strong> ${winners['Location']}</div>
+      <div class="result-item">💰 <strong>Financial Status:</strong> ${winners['Financial Status']}</div>
+    `;
+
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.style.display = 'block';
+    resultsDiv.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function getCategoryActiveCount(pool, category) {
+    return pool.filter(i => i.category === category && i.active).length;
+  }
+
+  function hasUnfinishedCategories(pool) {
+    const categories = [...new Set(pool.map(i => i.category))];
+    return categories.some(cat => getCategoryActiveCount(pool, cat) > 1);
+  }
+</script>
+
+</body>
+</html>
